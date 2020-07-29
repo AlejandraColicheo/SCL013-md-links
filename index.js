@@ -34,7 +34,17 @@ if (path.extname(file) === '.md') {
 } else {
     console.log('Por favor, introduce una ruta que contenga un archivo .md')
 }
-  
+
+// Lee los links de la ruta espeficificada
+const expReg = /(((https?:\/\/)|(http?:\/\/)|(www\.))[^\s\n]+)(?=\))/g;
+
+fs.readFile(file, "utf-8", (err,file) => {
+  if (err){
+    console.log(e);
+  }else{
+    console.log(file.match(expReg));
+  }
+})  
   
   
 
