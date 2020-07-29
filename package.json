@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/AnlianaAguilar/SCL013-md-links/issues"
   },
-  "homepage": "https://github.com/AnlianaAguilar/SCL013-md-links#readme"
+  "homepage": "https://github.com/AnlianaAguilar/SCL013-md-links#readme",
+  "dependencies": {
+    "fetch": "^1.1.0"
+  }
 }
