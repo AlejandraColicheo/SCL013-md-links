@@ -24,6 +24,9 @@
   },
   "homepage": "https://github.com/AnlianaAguilar/SCL013-md-links#readme",
   "dependencies": {
-    "fetch": "^1.1.0"
+    "chalk": "^4.1.0",
+    "fetch": "^1.1.0",
+    "marked": "^1.1.1",
+    "node-fetch": "^2.6.0"
   }
 }
