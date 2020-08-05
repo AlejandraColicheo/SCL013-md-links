@@ -10,7 +10,7 @@ const detectedMd = (absolutePath) => { // Función para detectar archivos tipo .
   if (path.extname(absolutePath) === '.md') {
     getLinks();
   } else {
-    console.log('error. Ingrese un archivo .md');
+    console.log('error. Ingresa un archivo .md');
   }
 };
 
@@ -30,9 +30,21 @@ const getLinks = () => { // Función para obtener arreglo de todos los links
         marked(datos, {
           renderer: renderer
         });
-        links = filterHttp(links); // Filtrar por prefijo http
-        links = stateLinks(links)
-        return resolve(links)
+        const urlLinks = links.filter(element => element.href.includes('http'));
+        let argv3 = process.argv[3];
+        if(argv3 == "-v" || argv3 == "-validate" || argv3 == "--v"){
+          console.log("PRIMER IF VALIDATE")
+          stateLinks(urlLinks, false, 200);
+          //totalBrokenLinks (urlLinks);
+          //filterHttp(urlLinks);
+          }else if (argv3 == '-s' || argv3  == '-stats'  || argv3 == "--s"){
+            console.log("ESTAMOS TRABAJANDO PARA USTED")
+            let cont = conteoLinks(urlLinks)
+            console.log(cont)
+          }
+        //links = filterHttp(links); // Filtrar por prefijo http
+        //links = stateLinks(links)
+        //return resolve(links)
       })
       .catch(err => {
         (console.log(err));
@@ -41,21 +53,47 @@ const getLinks = () => { // Función para obtener arreglo de todos los links
   return printLinks
 }
 
-const stateLinks = (links) => { // Función que filtra por estado de links
+const stateLinks = (links, unique, num) => { // Función que filtra por estado de links
   links.forEach(element => {
     fetch(element.href)
       .then(response => {
-        if (response.status === 200) {
+        if (response.status === num) {
           console.log(('File: '+ element.file + '\n'), colors.blue('Titulo: ' + element.text.toUpperCase() + '\n'), colors.yellow('href: ' + element.href + '\n'),  colors.green('Estado: ' + response.status + '\n'));
         } else  {
           console.log(('File: '+ element.file + '\n'), colors.blue('Titulo: ' + element.text.toUpperCase() + '\n'), colors.yellow('href: ' + element.href + '\n'),  colors.red('Estado: ' + response.status + '\n'));
         }
       })
-      .catch(error => 
-        console.log(colors.red('[X] Error en el Link: ' + element.href + '\n')))   
-  });
+      .catch(error => {
+        if(unique == false)  {
+        console.log(colors.red('[X] Error en el Link: ' + element.href + '\n'))
+        }
+      })
+    });
   console.log(colors.green("Links Analizados: " + links.length));
 };
+
+async function conteoLinks (links) {
+
+  let conteo = 0
+
+  let list = await links.forEach(element => {      
+    let e = fetch(element.href)
+            .then(response => {
+                if (response.status === 200) {
+                  //list.push(element)
+                  conteo += 1
+                  //console.log(conteo)
+                  
+                }
+            })
+            .catch(error => {
+              console.log("")
+            })
+
+})
+let cont = conteo
+return conteo
+      };
 
 const filterHttp = (links) => { // Función que filtra por prefijo http de links
   let filterHttp = [];
@@ -69,3 +107,27 @@ const filterHttp = (links) => { // Función que filtra por prefijo http de links
 };
 
 detectedMd(absolutePath);
+
+//Función que calcula total de links rotos
+
+const totalBrokenLinks = (links) => {
+  const linksUrl = links.map((link) => link.href);
+  let brokenLinks;
+  let counterBroken = 0;
+  linksUrl.forEach(element => {
+    brokenLinks = fetch(element)
+      .then(resp => {
+        if (resp.status !== 200) {
+          counterBroken++
+        }
+        return counterBroken;
+       
+      })
+      .catch(error => {
+        console.log("catch "+error)
+      });
+  })
+  brokenLinks.then((res) => {
+    console.log(colors.black("Broken: "), colors.red(res))
+  });
+}
