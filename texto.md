@@ -1,0 +1,15 @@
+[Node.js](https://nodejs.org/)
+[motor de JavaScript V8 de Chrome](https://developers.google.com/v8/).
+[`import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import) 
+[path](https://nodejs.org/api/path.html)
+[página oficial laboratoria](https://www.laboratoria.la/)
+[página oficial github](https://github.com/)
+[página oficial linkedin](https://www.linkedin.com/)
+[Node.js](https://nodejs.org/)
+[motor de JavaScript V8 de Chrome](https://developers.google.com/v8/).
+[`import`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import)
+[fs](https://nodesfjs.org/api/fs.html) 
+[Proyecto Github](https://github.com/MariaJoseGarrido/Burger-Queen/index.html)
+[Facebook Iniciar sesión](https://facebook.com/login/identify.html)
+[Amazon](https://www.amazn.com/)
+[likedin](https://www.linkedin.com/hola)
