@@ -5,7 +5,7 @@ const file = process.argv[2];
 const path = require('path');
 const absolutePath = path.normalize(path.resolve(file)); // normalize() arregla la ruta. resolve() la hace absoluta
 const colors = require('colors');
-
+//filtra  y detecta los archivos md del documento
 const detectedMd = (absolutePath) => { // Función para detectar archivos tipo .md
   if (path.extname(absolutePath) === '.md') {
     getLinks();
@@ -13,8 +13,8 @@ const detectedMd = (absolutePath) => { // Función para detectar archivos tipo .
     console.log('error. Ingresa un archivo .md');
   }
 };
-
-const getLinks = () => { // Función para obtener arreglo de todos los links
+// Función para obtener arreglo de todos los links
+const getLinks = () => {
   let printLinks = new Promise((resolve, reject) => {
     readFile.readFile(absolutePath)
       .then(datos => {
@@ -35,16 +35,12 @@ const getLinks = () => { // Función para obtener arreglo de todos los links
         if(argv3 == "-v" || argv3 == "-validate" || argv3 == "--v"){
           console.log("PRIMER IF VALIDATE")
           stateLinks(urlLinks, false, 200);
-          //totalBrokenLinks (urlLinks);
-          //filterHttp(urlLinks);
           }else if (argv3 == '-s' || argv3  == '-stats'  || argv3 == "--s"){
-            console.log("ESTAMOS TRABAJANDO PARA USTED")
+            console.log("ESTAMOS TRABAJANDO PARA")
             let cont = conteoLinks(urlLinks)
             console.log(cont)
           }
-        //links = filterHttp(links); // Filtrar por prefijo http
-        //links = stateLinks(links)
-        //return resolve(links)
+      
       })
       .catch(err => {
         (console.log(err));
@@ -52,8 +48,8 @@ const getLinks = () => { // Función para obtener arreglo de todos los links
   })
   return printLinks
 }
-
-const stateLinks = (links, unique, num) => { // Función que filtra por estado de links
+// Función que filtra por estado de links
+const stateLinks = (links, unique, num) => { 
   links.forEach(element => {
     fetch(element.href)
       .then(response => {
@@ -71,31 +67,8 @@ const stateLinks = (links, unique, num) => { // Función que filtra por estado d
     });
   console.log(colors.green("Links Analizados: " + links.length));
 };
-
-async function conteoLinks (links) {
-
-  let conteo = 0
-
-  let list = await links.forEach(element => {      
-    let e = fetch(element.href)
-            .then(response => {
-                if (response.status === 200) {
-                  //list.push(element)
-                  conteo += 1
-                  //console.log(conteo)
-                  
-                }
-            })
-            .catch(error => {
-              console.log("")
-            })
-
-})
-let cont = conteo
-return conteo
-      };
-
-const filterHttp = (links) => { // Función que filtra por prefijo http de links
+// Función que filtra por prefijo http de links
+const filterHttp = (links) => { 
   let filterHttp = [];
   links.forEach((element) => {
     let prefix = element.href.substring(0, 4);
@@ -109,7 +82,6 @@ const filterHttp = (links) => { // Función que filtra por prefijo http de links
 detectedMd(absolutePath);
 
 //Función que calcula total de links rotos
-
 const totalBrokenLinks = (links) => {
   const linksUrl = links.map((link) => link.href);
   let brokenLinks;
@@ -131,3 +103,26 @@ const totalBrokenLinks = (links) => {
     console.log(colors.black("Broken: "), colors.red(res))
   });
 }
+
+/*async function conteoLinks (links) {
+
+  let conteo = 0
+
+  let list = await links.forEach(element => {      
+    let e = fetch(element.href)
+            .then(response => {
+                if (response.status === 200) {
+                  //list.push(element)
+                  conteo += 1
+                  //console.log(conteo)
+                  
+                }
+            })
+            .catch(error => {
+              console.log("")
+            })
+
+})
+let cont = conteo
+return conteo
+      };*/
