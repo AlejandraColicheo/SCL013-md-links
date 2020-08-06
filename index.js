@@ -2,12 +2,12 @@ const readFile = require('./cli');
 const marked = require('marked');
 const fetch = require('node-fetch');
 const file = process.argv[2];
-const path = require('path');
+const path = require('path');//nos permite trabajar con rutas absolutas
 const absolutePath = path.normalize(path.resolve(file)); // normalize() arregla la ruta. resolve() la hace absoluta
 const colors = require('colors');
 
-//filtra  y detecta los archivos md del documento
-const detectedMd = (absolutePath) => { // Función para detectar archivos tipo .md
+//filtra  y detecta los archivos de tipo md 
+const detectedMd = (absolutePath) => { 
   if (path.extname(absolutePath) === '.md') {
     getLinks();
   } else {
@@ -58,7 +58,7 @@ const stateLinks = (links, unique, num) => {
         if (response.status === num) {
           console.log("______________________________________________________________")
           console.log(('File: '+ element.file + '\n'), colors.blue('Titulo: ' + element.text.toUpperCase() + '\n'), colors.yellow('href: ' + element.href + '\n'),  colors.green('Estado: ' + response.status));
-        } else  {
+        } else {
           console.log("______________________________________________________________")
           console.log(('File: '+ element.file + '\n'), colors.blue('Titulo: ' + element.text.toUpperCase() + '\n'), colors.yellow('href: ' + element.href + '\n'),  colors.red('Estado: ' + response.status));
         }
@@ -72,40 +72,5 @@ const stateLinks = (links, unique, num) => {
     });
   console.log(colors.green("Links Analizados: " + links.length));
 };
-// Función que filtra por prefijo http de links
-const filterHttp = (links) => { 
-  let filterHttp = [];
-  links.forEach((element) => {
-    let prefix = element.href.substring(0, 4);
-    if (prefix == 'http') {
-      filterHttp.push(element);
-    }
-  })
-  return filterHttp;
-};
 
 detectedMd(absolutePath);
-
-//Función que calcula total de links rotos
-const totalBrokenLinks = (links) => {
-  const linksUrl = links.map((link) => link.href);
-  let brokenLinks;
-  let counterBroken = 0;
-  linksUrl.forEach(element => {
-    brokenLinks = fetch(element)
-      .then(resp => {
-        if (resp.status !== 200) {
-          counterBroken++
-        }
-        return counterBroken;
-       
-      })
-      .catch(error => {
-        console.log("catch "+error)
-      });
-  })
-  brokenLinks.then((res) => {
-    console.log(colors.black("Broken: "), colors.red(res))
-  });
-}
-

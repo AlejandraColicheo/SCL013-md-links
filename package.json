@@ -18,7 +18,7 @@
     "md-links"
   ],
   "author": "Alejandra Colicheo y Anliana Aguilar",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/AnlianaAguilar/SCL013-md-links/issues"
   },
@@ -28,5 +28,6 @@
     "fetch": "^1.1.0",
     "marked": "^1.1.1",
     "node-fetch": "^2.6.0"
-  }
+  },
+  "devDependencies": {}
 }

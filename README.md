@@ -14,7 +14,7 @@ La lógica de este programa se observa en el siguiente diagrama:
 
 Para instalar la librería se ejecuta el siguiente comando en la consola:
 
-aqui ingreso el link
+npm i md-link-colicheo-aguilar
 
 ## 4. Modo de uso
 
@@ -27,7 +27,7 @@ Como se muetra a continuación:
 
 ## 5. Proximas iteraciones
 
-Se quiere agregar suma total de las estadisticas de los links unicos, links rotos, y links no disponibles a traves del comando " -stats ".
+Se quiere agregar suma total de las estadisticas de los links unicos y links totales mediante del comando " -stats " y una estadisticas de los links unicos, links rotos y links totales mediante del comando "-v -s".
 
 ## 6. Autores
 
