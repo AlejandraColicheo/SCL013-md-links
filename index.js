@@ -5,6 +5,7 @@ const file = process.argv[2];
 const path = require('path');
 const absolutePath = path.normalize(path.resolve(file)); // normalize() arregla la ruta. resolve() la hace absoluta
 const colors = require('colors');
+
 //filtra  y detecta los archivos md del documento
 const detectedMd = (absolutePath) => { // Función para detectar archivos tipo .md
   if (path.extname(absolutePath) === '.md') {
@@ -27,16 +28,17 @@ const getLinks = () => {
             file: absolutePath,
           });
         };
+        console.log(links)
         marked(datos, {
           renderer: renderer
         });
         const urlLinks = links.filter(element => element.href.includes('http'));
         let argv3 = process.argv[3];
-        if(argv3 == "-v" || argv3 == "-validate" || argv3 == "--v"){
-          console.log("PRIMER IF VALIDATE")
+        if(argv3 == "-v" || argv3 == "--validate" || argv3 == "--v"){
+          console.log("Función validate en proceso")
           stateLinks(urlLinks, false, 200);
           }else if (argv3 == '-s' || argv3  == '-stats'  || argv3 == "--s"){
-            console.log("ESTAMOS TRABAJANDO PARA")
+            console.log("ESTAMOS TRABAJANDO PARA USTED")
             let cont = conteoLinks(urlLinks)
             console.log(cont)
           }
@@ -54,13 +56,16 @@ const stateLinks = (links, unique, num) => {
     fetch(element.href)
       .then(response => {
         if (response.status === num) {
-          console.log(('File: '+ element.file + '\n'), colors.blue('Titulo: ' + element.text.toUpperCase() + '\n'), colors.yellow('href: ' + element.href + '\n'),  colors.green('Estado: ' + response.status + '\n'));
+          console.log("______________________________________________________________")
+          console.log(('File: '+ element.file + '\n'), colors.blue('Titulo: ' + element.text.toUpperCase() + '\n'), colors.yellow('href: ' + element.href + '\n'),  colors.green('Estado: ' + response.status));
         } else  {
-          console.log(('File: '+ element.file + '\n'), colors.blue('Titulo: ' + element.text.toUpperCase() + '\n'), colors.yellow('href: ' + element.href + '\n'),  colors.red('Estado: ' + response.status + '\n'));
+          console.log("______________________________________________________________")
+          console.log(('File: '+ element.file + '\n'), colors.blue('Titulo: ' + element.text.toUpperCase() + '\n'), colors.yellow('href: ' + element.href + '\n'),  colors.red('Estado: ' + response.status));
         }
       })
       .catch(error => {
         if(unique == false)  {
+          console.log("______________________________________________________________")
         console.log(colors.red('[X] Error en el Link: ' + element.href + '\n'))
         }
       })
@@ -104,25 +109,3 @@ const totalBrokenLinks = (links) => {
   });
 }
 
-/*async function conteoLinks (links) {
-
-  let conteo = 0
-
-  let list = await links.forEach(element => {      
-    let e = fetch(element.href)
-            .then(response => {
-                if (response.status === 200) {
-                  //list.push(element)
-                  conteo += 1
-                  //console.log(conteo)
-                  
-                }
-            })
-            .catch(error => {
-              console.log("")
-            })
-
-})
-let cont = conteo
-return conteo
-      };*/

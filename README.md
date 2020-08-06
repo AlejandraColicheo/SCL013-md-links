@@ -25,6 +25,10 @@ Como se muetra a continuación:
 ![VALIDATE](/Img/VALIDATE.png)
 ![VALIDATE](/Img/VALIDATE2.png)
 
-## 5. Autores
+## 5. Proximas iteraciones
+
+Se quiere agregar suma total de las estadisticas de los links unicos, links rotos, y links no disponibles a traves del comando " -stats ".
+
+## 6. Autores
 
 Alejandra Colicheo y Anliana Aguilar.
