@@ -14,7 +14,23 @@ La lógica de este programa se observa en el siguiente diagrama:
 
 Para instalar la librería se ejecuta el siguiente comando en la consola:
 
+```
 npm i md-link-colicheo-aguilar
+
+```
+
+Luego pegar el siguiente link de la librería en tu archivo JavaScript:
+
+```
+var mdLinkColicheoAguilar = require("md-link-colicheo-aguilar")
+
+```
+Luego, para utilizarla:
+
+```
+   mdLinkColicheoAguilar(path, options)
+
+```
 
 ## 4. Modo de uso
 
