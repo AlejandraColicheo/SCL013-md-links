@@ -36,7 +36,7 @@ const getLinks = () => {
         let argv3 = process.argv[3];
         if(argv3 == "-v" || argv3 == "--validate" || argv3 == "--v"){
           console.log("Función validate en proceso")
-          stateLinks(urlLinks, false, 200);
+          stateLinks(urlLinks, 200);
           }else if (argv3 == '-s' || argv3  == '-stats'  || argv3 == "--s"){
             console.log("ESTAMOS TRABAJANDO PARA USTED")
             let cont = conteoLinks(urlLinks)
@@ -51,7 +51,7 @@ const getLinks = () => {
   return printLinks
 }
 // Función que filtra por estado de links
-const stateLinks = (links, unique, num) => { 
+const stateLinks = (links, num) => { 
   links.forEach(element => {
     fetch(element.href)
       .then(response => {
@@ -64,10 +64,10 @@ const stateLinks = (links, unique, num) => {
         }
       })
       .catch(error => {
-        if(unique == false)  {
+         
           console.log("______________________________________________________________")
         console.log(colors.red('[X] Error en el Link: ' + element.href + '\n'))
-        }
+        
       })
     });
   console.log(colors.green("Links Analizados: " + links.length));
