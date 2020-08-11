@@ -1,7 +1,7 @@
 const readFile = require('./cli');
-const marked = require('marked');
-const fetch = require('node-fetch');
-const file = process.argv[2];
+const marked = require('marked');// nos ayuda a un proceso mas liviano no usa cache 
+const fetch = require('node-fetch');// manipula los http peticiones y respuestas 400 y 200
+const file = process.argv[2];//argumento que se busca y su posicion 
 const path = require('path');//nos permite trabajar con rutas absolutas
 const absolutePath = path.normalize(path.resolve(file)); // normalize() arregla la ruta. resolve() la hace absoluta
 const colors = require('colors');
@@ -19,7 +19,7 @@ const getLinks = () => {
   let printLinks = new Promise((resolve, reject) => {
     readFile.readFile(absolutePath)
       .then(datos => {
-        let renderer = new marked.Renderer();
+        let renderer = new marked.Renderer();//nos trae los links sin informacion relevante y con etiqueta privada
         let links = [];
         renderer.link = function (href, title, text) {
           links.push({
@@ -30,10 +30,10 @@ const getLinks = () => {
         };
         console.log(links)
         marked(datos, {
-          renderer: renderer
+          renderer: renderer // objeto tipo texto (token)
         });
         const urlLinks = links.filter(element => element.href.includes('http'));
-        let argv3 = process.argv[3];
+        let argv3 = process.argv[3];//flags
         if(argv3 == "-v" || argv3 == "--validate" || argv3 == "--v"){
           console.log("Función validate en proceso")
           stateLinks(urlLinks, 200);
@@ -53,7 +53,7 @@ const getLinks = () => {
 // Función que filtra por estado de links
 const stateLinks = (links, num) => { 
   links.forEach(element => {
-    fetch(element.href)
+    fetch(element.href)//consulta de link o api
       .then(response => {
         if (response.status === num) {
           console.log("______________________________________________________________")
